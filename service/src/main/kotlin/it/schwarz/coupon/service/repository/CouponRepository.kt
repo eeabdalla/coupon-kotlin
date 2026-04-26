@@ -8,4 +8,6 @@ interface CouponRepository {
     suspend fun findByCodes(codes: List<String>): List<CouponModel>
 
     suspend fun save(coupon: CouponModel)
+
+    suspend fun saveAll(coupons: List<CouponModel>)
 }

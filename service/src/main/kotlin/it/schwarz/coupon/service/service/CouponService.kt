@@ -22,4 +22,9 @@ class CouponService(
         logger.info { "Creating coupon: ${coupon.code}" }
         couponRepository.save(coupon)
     }
+
+    suspend fun createCoupons(coupons: List<CouponModel>) {
+        logger.info { "Creating ${coupons.size} coupons in batch" }
+        couponRepository.saveAll(coupons)
+    }
 }

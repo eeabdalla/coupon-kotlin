@@ -47,6 +47,20 @@ class CouponRepositoryImpl(
         collection.insertOne(document)
     }
 
+    override suspend fun saveAll(coupons: List<CouponModel>) {
+        logger.debug { "Saving ${coupons.size} coupons" }
+        val documents =
+            coupons.map { coupon ->
+                Document()
+                    .append("code", coupon.code)
+                    .append("discount", coupon.discount)
+                    .append("description", coupon.description)
+                    .append("applicationCount", coupon.applicationCount)
+                    .append("creationDateTime", Instant.now())
+            }
+        collection.insertMany(documents)
+    }
+
     private fun Document.toCouponModel(): CouponModel =
         CouponModel(
             code = getString("code"),

@@ -9,10 +9,7 @@ import it.schwarz.coupon.cleanup.service.CollectionCleanupRunner
 import kotlinx.coroutines.delay
 import org.bson.conversions.Bson
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 class CollectionCleanupRunnerTest :
     StringSpec({

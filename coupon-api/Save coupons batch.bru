@@ -1,0 +1,35 @@
+meta {
+  name: Save coupons batch
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/coupons/batch
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "coupons": [
+        {
+          "code": "batchCoupon1",
+          "discount": 1.99,
+          "description": "Batch coupon 1",
+          "applicationCount": 0
+        },
+        {
+          "code": "batchCoupon2",
+          "discount": 2.49,
+          "description": "Batch coupon 2",
+          "applicationCount": 2
+        }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

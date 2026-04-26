@@ -71,4 +71,13 @@ class CouponServiceTest :
 
             coVerify { couponRepository.save(sampleCoupon) }
         }
+
+        "createCoupons delegates batch to repository saveAll" {
+            val coupons = listOf(sampleCoupon, sampleCoupon.copy(code = "xyz789"))
+            coEvery { couponRepository.saveAll(coupons) } returns Unit
+
+            couponService.createCoupons(coupons)
+
+            coVerify { couponRepository.saveAll(coupons) }
+        }
     })
