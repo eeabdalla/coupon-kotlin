@@ -31,7 +31,11 @@ application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 
     val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+    applicationDefaultJvmArgs = listOf(
+        "-Dio.ktor.development=$isDevelopment",
+        "--enable-native-access=ALL-UNNAMED",
+        "-Dio.netty.transport.noNative=true",
+    )
 }
 
 kotlin { }
@@ -78,9 +82,9 @@ dependencies {
 
     // Mongo DB
     implementation("org.mongodb:mongodb-driver-kotlin-sync:$mongoVersion")
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:${mongoVersion}")
-    implementation("org.mongodb:bson:${mongoVersion}")
-    implementation("org.mongodb:bson-kotlinx:${mongoVersion}")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongoVersion")
+    implementation("org.mongodb:bson:$mongoVersion")
+    implementation("org.mongodb:bson-kotlinx:$mongoVersion")
 
     // Bridge from java jul logging to slf (logback) logging:
     implementation("org.slf4j:jul-to-slf4j:$julToSlfjVersion")

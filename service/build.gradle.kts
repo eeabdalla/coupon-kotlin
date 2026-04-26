@@ -78,9 +78,9 @@ dependencies {
 
     // Mongo DB
     implementation("org.mongodb:mongodb-driver-kotlin-sync:$mongoVersion")
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:${mongoVersion}")
-    implementation("org.mongodb:bson:${mongoVersion}")
-    implementation("org.mongodb:bson-kotlinx:${mongoVersion}")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongoVersion")
+    implementation("org.mongodb:bson:$mongoVersion")
+    implementation("org.mongodb:bson-kotlinx:$mongoVersion")
 
     // Bridge from java jul logging to slf (logback) logging:
     implementation("org.slf4j:jul-to-slf4j:$julToSlfjVersion")
@@ -107,6 +107,9 @@ dependencies {
     testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
     // Mock for client requests
     testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
+    // Ktor test host
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
 }
 
 jacoco {

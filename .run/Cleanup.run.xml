@@ -1,37 +1,47 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Cleanup" type="KtorApplicationConfigurationType" factoryName="Ktor">
-    <option name="envFilePaths">
-      <option value="$PROJECT_DIR$/cleanup/local.env" />
-    </option>
-    <option name="MAIN_CLASS_NAME" value="it.schwarz.coupon.cleanup.ApplicationKt" />
-    <module name="cleanup.main" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="cleanup.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
-    <extension name="net.ashald.envfile">
-      <option name="IS_ENABLED" value="false" />
-      <option name="IS_SUBST" value="false" />
-      <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
-      <option name="IS_IGNORE_MISSING_FILES" value="false" />
-      <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
-      <ENTRIES>
-        <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
-      </ENTRIES>
-    </extension>
-    <option name="alternativeJrePath" />
-    <option name="alternativeJrePathEnabled" value="false" />
-    <option name="includeProvidedScope" value="false" />
-    <option name="mainClass" value="it.schwarz.coupon.cleanup.ApplicationKt" />
-    <option name="passParentEnvs" value="true" />
-    <option name="programParameters" value="" />
-    <option name="shortenCommandLine" />
-    <option name="vmParameters" />
-    <option name="workingDirectory" value="$PROJECT_DIR$" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+  <configuration default="false" name="Cleanup" type="GradleRunConfiguration" factoryName="Gradle">
+    <ExternalSystemSettings>
+      <option name="env">
+        <map>
+          <entry key="COUPON_RETENTION_MINUTES" value="3" />
+          <entry key="DATABASE_NAME" value="coupon-db" />
+          <entry key="MONGODB_URI" value="mongodb://localhost:27017" />
+          <entry key="PORT" value="8083" />
+        </map>
+      </option>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/cleanup" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value="run" />
+        </list>
+      </option>
+      <option name="vmOptions" value="" />
+    </ExternalSystemSettings>
+    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+    <EXTENSION ID="com.intellij.execution.ExternalSystemRunConfigurationJavaExtension">
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </extension>
+    </EXTENSION>
+    <DebugAllEnabled>false</DebugAllEnabled>
+    <RunAsTest>false</RunAsTest>
+    <GradleProfilingDisabled>false</GradleProfilingDisabled>
+    <GradleCoverageDisabled>false</GradleCoverageDisabled>
+    <method v="2" />
   </configuration>
 </component>
