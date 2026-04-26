@@ -58,6 +58,12 @@ repositories {
 }
 
 dependencies {
+    // Force patched jackson-core to fix CVEs in transitive dep from logstash-logback-encoder
+    constraints {
+        implementation("tools.jackson.core:jackson-databind:3.1.2")
+        implementation("tools.jackson.core:jackson-core:3.1.2")
+    }
+
     // KTOR
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
