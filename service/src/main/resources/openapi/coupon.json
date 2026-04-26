@@ -10,6 +10,18 @@
       "get": {
         "summary": "Get all coupons or the coupons for the specified codes.",
         "operationId": "getCoupons",
+        "parameters": [
+          {
+            "name": "codes",
+            "in": "query",
+            "required": false,
+            "description": "Comma-separated coupon codes to filter by.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "abc123,45ab67"
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -22,29 +34,8 @@
                 }
               }
             },
-            "description": "All coupons (no requestBody) or all coupons found by the codes that were provided in the requestBody."
+            "description": "All coupons (no query param) or all coupons found by the codes provided in the query parameter."
           }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "examples": {
-                "Request coupons by codes": {
-                  "value": [
-                    "abc123",
-                    "45ab67"
-                  ]
-                }
-              }
-            }
-          },
-          "required": false
         }
       },
       "post": {

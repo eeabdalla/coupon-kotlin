@@ -31,11 +31,12 @@ application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 
     val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf(
-        "-Dio.ktor.development=$isDevelopment",
-        "--enable-native-access=ALL-UNNAMED",
-        "-Dio.netty.transport.noNative=true",
-    )
+    applicationDefaultJvmArgs =
+        listOf(
+            "-Dio.ktor.development=$isDevelopment",
+            "--enable-native-access=ALL-UNNAMED",
+            "-Dio.netty.transport.noNative=true",
+        )
 }
 
 kotlin { }

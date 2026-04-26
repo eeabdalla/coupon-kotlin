@@ -11,12 +11,13 @@ class CouponCleanupRunner(
     private val currentTime: Instant,
     private val retentionMinutes: Long,
 ) : CollectionCleanupRunner(
-    documentRepository,
-) {
+        documentRepository,
+    ) {
     override fun getCollectionName(): String = "coupons"
 
-    override fun getFilter(): Bson = Filters.lt(
-        CREATION_DATE_TIME_FIELD_NAME,
-        currentTime.minus(retentionMinutes, ChronoUnit.MINUTES),
-    )
+    override fun getFilter(): Bson =
+        Filters.lt(
+            CREATION_DATE_TIME_FIELD_NAME,
+            currentTime.minus(retentionMinutes, ChronoUnit.MINUTES),
+        )
 }

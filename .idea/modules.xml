@@ -12,9 +12,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/coupon-kotlin.service.iml" filepath="$PROJECT_DIR$/.idea/modules/service/coupon-kotlin.service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/coupon-kotlin.service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/service/coupon-kotlin.service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/coupon-kotlin.service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/service/coupon-kotlin.service.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/schwarz.it.cleanup.iml" filepath="$PROJECT_DIR$/.idea/modules/schwarz.it.cleanup.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/schwarz.it.cleanup.main.iml" filepath="$PROJECT_DIR$/.idea/modules/schwarz.it.cleanup.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/schwarz.it.cleanup.test.iml" filepath="$PROJECT_DIR$/.idea/modules/schwarz.it.cleanup.test.iml" />
     </modules>
   </component>
 </project>
