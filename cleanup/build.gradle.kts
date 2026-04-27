@@ -9,9 +9,7 @@ val mockkVersion: String by project
 val ktlintVersion: String by project
 val sonarqubeVersion: String by project
 val koinVersion: String by project
-val kotlinxDatetimeVersion: String by project
 val julToSlfjVersion: String by project
-val jsonKotlinSchemaVersion: String by project
 val kotlinLoggingVersion: String by project
 val mongoVersion: String by project
 
@@ -19,7 +17,6 @@ plugins {
     kotlin("jvm")
     id("io.ktor.plugin")
     id("org.jlleitschuh.gradle.ktlint")
-    id("org.jetbrains.kotlin.plugin.serialization")
     jacoco
     id("org.sonarqube")
 }
@@ -39,8 +36,6 @@ application {
         )
 }
 
-kotlin { }
-
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(25))
@@ -59,6 +54,9 @@ repositories {
 }
 
 dependencies {
+    // Shared module
+    implementation(project(":shared"))
+
     // Force patched jackson-core to fix CVEs in transitive dep from logstash-logback-encoder
     constraints {
         implementation("tools.jackson.core:jackson-databind:3.1.2")
@@ -68,10 +66,6 @@ dependencies {
     // KTOR
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("io.ktor:ktor-server-cors:$ktorVersion")
-    implementation("io.ktor:ktor-server-openapi:$ktorVersion")
-    implementation("io.ktor:ktor-server-swagger:$ktorVersion")
-    implementation("io.ktor:ktor-server-default-headers-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
 
     // Logging
@@ -79,34 +73,16 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     implementation("io.github.oshai:kotlin-logging-jvm:$kotlinLoggingVersion")
 
-    // Serialization:
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
-
     // Koin:
     implementation("io.insert-koin:koin-ktor:$koinVersion")
     implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
 
     // Mongo DB
-    implementation("org.mongodb:mongodb-driver-kotlin-sync:$mongoVersion")
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongoVersion")
     implementation("org.mongodb:bson:$mongoVersion")
-    implementation("org.mongodb:bson-kotlinx:$mongoVersion")
 
     // Bridge from java jul logging to slf (logback) logging:
     implementation("org.slf4j:jul-to-slf4j:$julToSlfjVersion")
-
-    // Json schema validation:
-    implementation("net.pwall.json:json-kotlin-schema:$jsonKotlinSchemaVersion")
-
-    // Http client
-    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-client-logging-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-client-auth:$ktorVersion")
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
     // Unit Testing & Mocking
     testImplementation("io.mockk:mockk:$mockkVersion")
@@ -116,8 +92,6 @@ dependencies {
     // Koin tests:
     testImplementation("io.insert-koin:koin-test:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
-    // Mock for client requests
-    testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
 }
 
 jacoco {
@@ -158,14 +132,7 @@ configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
 }
 
 sonarqube {
-    val exclusions =
-        listOf(
-            "**/src/main/kotlin/FileToExclude.kt",
-        )
-    val cpd = "**/src/main/kotlin/core/domain/*.kt"
     properties {
-        property("sonar.coverage.exclusions", exclusions)
-        property("sonar.cpd.exclusions", cpd)
         property("sonar.projectName", "kotlin-ktor")
     }
 }

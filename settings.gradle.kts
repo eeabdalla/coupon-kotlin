@@ -15,5 +15,6 @@ pluginManagement {
     }
 }
 
+include("shared")
 include("cleanup")
 include("service")

@@ -8,7 +8,6 @@ import java.time.temporal.ChronoUnit
 
 class CouponCleanupRunner(
     documentRepository: DocumentRepository,
-    private val currentTime: Instant,
     private val retentionMinutes: Long,
 ) : CollectionCleanupRunner(
         documentRepository,
@@ -18,6 +17,6 @@ class CouponCleanupRunner(
     override fun getFilter(): Bson =
         Filters.lt(
             CREATION_DATE_TIME_FIELD_NAME,
-            currentTime.minus(retentionMinutes, ChronoUnit.MINUTES),
+            Instant.now().minus(retentionMinutes, ChronoUnit.MINUTES),
         )
 }

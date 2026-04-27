@@ -1,5 +1,6 @@
 package it.schwarz.coupon.cleanup.configuration
 
+import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationEnvironment
@@ -9,6 +10,7 @@ import it.schwarz.coupon.cleanup.repository.DocumentRepository
 import it.schwarz.coupon.cleanup.repository.DocumentRepositoryImpl
 import it.schwarz.coupon.cleanup.service.CleanupRunner
 import it.schwarz.coupon.cleanup.service.CouponCleanupRunner
+import it.schwarz.coupon.shared.configuration.Database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.bind
@@ -18,7 +20,6 @@ import org.koin.ktor.plugin.KoinApplicationStarted
 import org.koin.ktor.plugin.KoinApplicationStopPreparing
 import org.koin.ktor.plugin.KoinApplicationStopped
 import org.koin.logger.slf4jLogger
-import java.time.Instant
 
 fun Application.configureKoin() {
     val logger = KotlinLogging.logger {}
@@ -39,17 +40,17 @@ fun Application.configureKoin() {
 
                 val mongoDatabase = Database().configureDatabase(uri, name)
 
+                single { mongoDatabase.client }.bind(MongoClient::class)
+
                 single<DocumentRepository> {
                     DocumentRepositoryImpl(
-                        mongoDatabase,
+                        mongoDatabase.database,
                     )
                 }
 
-                val currentTime = Instant.now()
                 single {
                     CouponCleanupRunner(
                         documentRepository = get<DocumentRepository>(),
-                        currentTime = currentTime,
                         retentionMinutes = System.getenv("COUPON_RETENTION_MINUTES").toLong(),
                     )
                 }
@@ -66,7 +67,13 @@ fun Application.configureKoin() {
     @Suppress("UNUSED")
     with(monitor) {
         subscribe(KoinApplicationStarted) { logger.info { "Koin started" } }
-        subscribe(KoinApplicationStopPreparing) { logger.info { "Koin stopping" } }
+        subscribe(KoinApplicationStopPreparing) {
+            logger.info { "Koin stopping" }
+            org.koin.java.KoinJavaComponent
+                .getKoin()
+                .get<MongoClient>()
+                .close()
+        }
         subscribe(KoinApplicationStopped) { logger.info { "Koin stopped" } }
     }
 }

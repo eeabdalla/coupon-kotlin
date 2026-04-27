@@ -63,9 +63,9 @@ class CouponRepositoryImpl(
 
     private fun Document.toCouponModel(): CouponModel =
         CouponModel(
-            code = getString("code"),
-            discount = getDouble("discount"),
-            description = getString("description"),
+            code = requireNotNull(getString("code")) { "Document missing 'code' field" },
+            discount = requireNotNull(getDouble("discount")) { "Document missing 'discount' field" },
+            description = requireNotNull(getString("description")) { "Document missing 'description' field" },
             applicationCount = getInteger("applicationCount"),
         )
 }

@@ -1,4 +1,4 @@
-package it.schwarz.coupon.service.configuration
+package it.schwarz.coupon.shared.configuration
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -9,13 +9,18 @@ import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.codecs.jsr310.LocalDateCodec
 
+data class DatabaseConnection(
+    val client: MongoClient,
+    val database: MongoDatabase,
+)
+
 class Database {
     private val logger = KotlinLogging.logger {}
 
     fun configureDatabase(
         dbURI: String,
         dbName: String,
-    ): MongoDatabase {
+    ): DatabaseConnection {
         logger.debug { "configuring database" }
 
         val codecRegistry =
@@ -37,6 +42,7 @@ class Database {
                 )
             logger.trace { "$doc received as Ping-result" }
         }
-        return database
+        return DatabaseConnection(client, database)
     }
 }
+

@@ -1,11 +1,14 @@
 package it.schwarz.coupon.service.configuration
 
+import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import it.schwarz.coupon.service.repository.CouponRepository
 import it.schwarz.coupon.service.repository.CouponRepositoryImpl
 import it.schwarz.coupon.service.service.CouponService
+import it.schwarz.coupon.shared.configuration.Database
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import org.koin.ktor.plugin.KoinApplicationStarted
@@ -28,8 +31,10 @@ fun Application.configureKoin() {
 
                 val mongoDatabase = Database().configureDatabase(uri, name)
 
+                single { mongoDatabase.client }.bind(MongoClient::class)
+
                 single<CouponRepository> {
-                    CouponRepositoryImpl(mongoDatabase)
+                    CouponRepositoryImpl(mongoDatabase.database)
                 }
 
                 single {
@@ -42,7 +47,13 @@ fun Application.configureKoin() {
     @Suppress("UNUSED")
     with(monitor) {
         subscribe(KoinApplicationStarted) { logger.info { "Koin started" } }
-        subscribe(KoinApplicationStopPreparing) { logger.info { "Koin stopping" } }
+        subscribe(KoinApplicationStopPreparing) {
+            logger.info { "Koin stopping" }
+            org.koin.java.KoinJavaComponent
+                .getKoin()
+                .get<MongoClient>()
+                .close()
+        }
         subscribe(KoinApplicationStopped) { logger.info { "Koin stopped" } }
     }
 }
